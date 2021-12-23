@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New User</title>
+</head>
+<body>
+<h3>Create or update actual data</h3>
+<br>
+<form th:method="POST" th:action="@{/create}" th:object="${user}">
+    <input type="hidden" th:field="*{id}"/>
+    <p><label for="name">Enter name: </label> <input type="text" th:field="${user.name}" id="name"/></p>
+    <p><label for="password">Enter password: </label><input type="text" th:field="${user.password}" id="password"/></p>
+    <p>
+        Roles:
+        <label>ADMIN</label>
+        <input type="checkbox" th:field="*{roles}" th:value="ROLE_ADMIN"/>
+        <label>USER</label>
+        <input type="checkbox" th:field="*{roles}" th:value="ROLE_USER"/>
+    </p>
+    <br>
+    <input type="submit" value="Ok!">
+</form>
+<br>
+<form th:action="@{/admin}">
+    <input type="submit" value="Back">
+</form>
+</body>
+</html>
