@@ -1,41 +1,20 @@
 package com.example.springboot.service;
 
-import com.example.springboot.repository.UserRepository;
+
 import com.example.springboot.model.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class UserService implements UserDetailsService {
+public interface UserService {
 
-    private final UserRepository repository;
+    User loadUserByUsername (String name);
 
-    public UserService(UserRepository repository) {
-        this.repository = repository;
-    }
+    User fiendUserById(Long id);
 
+    List<User> getAllUsers();
 
-    public void createOrUpdateUser(User user) {
-        repository.save(user);
-    }
+    void removeUser(Long id);
 
-    public void removeUser(Long id) {
-        repository.delete(fiendUserById(id));
-    }
+    void createOrUpdateUser(User user);
 
-    public List<User> getAllUsers() {
-        return repository.findAll();
-    }
-
-    public User fiendUserById(Long id) {
-        return repository.getById(id);
-    }
-
-    @Override
-    public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.findUserByName(username);
-    }
 }

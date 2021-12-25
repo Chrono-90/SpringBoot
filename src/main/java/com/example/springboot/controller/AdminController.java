@@ -1,7 +1,7 @@
 package com.example.springboot.controller;
 
 import com.example.springboot.model.User;
-import com.example.springboot.service.UserService;
+import com.example.springboot.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("")
 public class AdminController {
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -22,19 +22,19 @@ public class AdminController {
     @PostMapping("/create")
     public String createOrUpdate(@ModelAttribute("new") User user) {
         user.setPassword(encoder(user.getPassword()));
-        userService.createOrUpdateUser(user);
+        userServiceImpl.createOrUpdateUser(user);
         return "redirect:/admin";
     }
 
     @GetMapping("/delete/{id}")
     public String removeUser(@PathVariable("id") Long id) {
-        userService.removeUser(id);
+        userServiceImpl.removeUser(id);
         return "redirect:/admin";
     }
 
     @GetMapping("/admin")
     public String giveAllUsers(Model userModel) {
-        List<User> someUsers = userService.getAllUsers();
+        List<User> someUsers = userServiceImpl.getAllUsers();
         userModel.addAttribute("users", someUsers);
         return "admin";
     }
@@ -48,7 +48,7 @@ public class AdminController {
 
     @GetMapping("/update/{id}")
     public String updateUser(@PathVariable("id") Long id, Model userModel) {
-        User user = userService.fiendUserById(id);
+        User user = userServiceImpl.fiendUserById(id);
         userModel.addAttribute("user", user);
         return "create&UpdateNewUser";
     }
